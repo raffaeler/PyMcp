@@ -40,14 +40,10 @@ jobs:
     - name: Run type checking with mypy
       run: |
         uv run mypy --package sample_mcp_server
-        uv run mypy --package ingestion_mcp_server
     
     - name: Run tests for sample_mcp_server
       run: uv run pytest src/sample_mcp_server/tests/ -v
     
-    - name: Run tests for ingestion_mcp_server
-      run: uv run pytest src/ingestion_mcp_server/tests/ -v
-
   build-docker:
     name: Build Docker Images
     runs-on: ubuntu-latest
@@ -67,15 +63,5 @@ jobs:
         file: src/sample_mcp_server/Dockerfile
         push: false
         tags: sample-mcp-server:latest
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-    
-    - name: Build ingestion MCP server image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        file: src/ingestion_mcp_server/Dockerfile
-        push: false
-        tags: ingestion-mcp-server:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
